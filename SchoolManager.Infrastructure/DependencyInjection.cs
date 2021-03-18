@@ -18,7 +18,7 @@ namespace SchoolManager.Infrastructure
             });
 
             services.AddScoped<ISchoolDbContext>(provider => provider.GetService<SchoolDbContext>());
-
+            services.AddScoped<ISchoolDbSeeder,SchoolDbSeeder>();
 
             return services;
         }
