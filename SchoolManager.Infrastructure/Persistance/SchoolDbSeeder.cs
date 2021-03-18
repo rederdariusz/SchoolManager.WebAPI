@@ -47,8 +47,8 @@ namespace SchoolManager.Infrastructure.Persistance
                 {
                     _context.Teachers.AddRange(new Teacher[]
                     {
-                        new Teacher{FirstName = "Miroslawa", LastName = "Kowalski", DateOfBirth = new DateTime(65,09,20), Pesel = "65200591611", PhoneNumber = "200200200", ClassId = 1},
-                        new Teacher{FirstName = "Anastazja", LastName = "Linka", DateOfBirth = new DateTime(67,09,20), Pesel = "67200591611", PhoneNumber = "200200200", ClassId = 2},
+                        new Teacher{FirstName = "Miroslawa", LastName = "Kowalski", DateOfBirth = new DateTime(1965,09,20), Pesel = "65200591611", PhoneNumber = "200200200", ClassId = 1},
+                        new Teacher{FirstName = "Anastazja", LastName = "Linka", DateOfBirth = new DateTime(1967,09,20), Pesel = "67200591611", PhoneNumber = "200200200", ClassId = 2},
                         new Teacher{FirstName = "Janisława", LastName = "Lolek", DateOfBirth = new DateTime(1969,09,20), Pesel = "69200591611", PhoneNumber = "200222200", ClassId = 3}
                       
                     });

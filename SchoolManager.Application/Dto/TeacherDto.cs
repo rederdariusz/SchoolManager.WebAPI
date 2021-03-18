@@ -10,8 +10,7 @@ namespace SchoolManager.Application.Dto
 {
     public class TeacherDto : IRegister
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string FullName { get; set; }
         public string Pesel { get; set; }
         public int Age { get; set; }
         public string PhoneNumber { get; set; }
@@ -19,7 +18,9 @@ namespace SchoolManager.Application.Dto
 
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Teacher, TeacherDto>();
+            config.NewConfig<Teacher, TeacherDto>()
+                .Map(dest => dest.FullName, src => $"{src.FirstName} {src.LastName}")
+                .Map(dest => dest.Age, src => (int)(DateTime.Now - src.DateOfBirth).TotalDays/365); ;
 
         }
     }

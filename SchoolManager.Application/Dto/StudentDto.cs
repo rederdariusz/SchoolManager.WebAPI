@@ -20,7 +20,8 @@ namespace SchoolManager.Application.Dto
         {
             config.NewConfig<Student, StudentDto>()
                 .Map(dest => dest.FullName, src => $"{src.FirstName} {src.LastName}")
-                .Map(dest => dest.Age, src => (DateTime.Now - src.DateOfBirth));
+                .Map(dest => dest.Age, src => DateTime.Now.Year - src.DateOfBirth.Year);
+                
         }
     }
 }
