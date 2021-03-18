@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SchoolManager.Application;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Common.Interfaces;
 using SchoolManager.Infrastructure;
@@ -30,8 +31,11 @@ namespace SchoolManager.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddApplication();
             services.AddInfrastructure(Configuration);
-            services.AddMediatR(typeof(GetAllClassesQueryHandler).Assembly);
+            
+            
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );

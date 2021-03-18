@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
+using SchoolManager.Application.Classes.Queries.GetClassById;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,15 @@ namespace SchoolManager.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllClasses()
         {
-            var classes = await _mediator.Send(new GetAllClassesQuery());
-            return Ok(classes);
+            return Ok(await _mediator.Send(new GetAllClassesQuery()));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetClassById(int id)
+        {
+            return Ok(await _mediator.Send(new GetClassByIdQuery() { ClassId = id }));
         }
 
     }
