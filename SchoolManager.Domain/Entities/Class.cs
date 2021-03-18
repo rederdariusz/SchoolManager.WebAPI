@@ -9,7 +9,6 @@ namespace SchoolManager.Domain.Entities
         public string Name { get; set; }
         public ClassType Type { get; set; }
 
-        public int TeacherId { get; set; }
         public virtual Teacher Teacher { get; set; }
 
         public virtual List<Student> Students { get; set; }
