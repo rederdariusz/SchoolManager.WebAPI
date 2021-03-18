@@ -2,6 +2,7 @@
 using SchoolManager.Application.Common.Interfaces;
 using SchoolManager.Domain.Entities;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace SchoolManager.Infrastructure.Persistance
 {
@@ -15,6 +16,11 @@ namespace SchoolManager.Infrastructure.Persistance
         public DbSet<Class> Classes { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+
+        public Task SaveChangesAsync()
+        {
+            return base.SaveChangesAsync();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

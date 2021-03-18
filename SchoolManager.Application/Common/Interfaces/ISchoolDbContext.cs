@@ -13,5 +13,6 @@ namespace SchoolManager.Application.Common.Interfaces
         DbSet<Class> Classes { get; set; }
         DbSet<Student> Students { get; set; }
         DbSet<Teacher> Teachers { get; set; }
+        Task SaveChangesAsync();
     }
 }

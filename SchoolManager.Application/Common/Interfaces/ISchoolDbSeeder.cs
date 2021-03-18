@@ -8,6 +8,6 @@ namespace SchoolManager.Application.Common.Interfaces
 {
     public interface ISchoolDbSeeder
     {
-        void Seed();
+        Task Seed();
     }
 }

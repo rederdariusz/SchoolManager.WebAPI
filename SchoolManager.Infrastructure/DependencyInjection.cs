@@ -17,8 +17,9 @@ namespace SchoolManager.Infrastructure
                     b => b.MigrationsAssembly(typeof(SchoolDbContext).Assembly.FullName));
             });
 
-            services.AddScoped<ISchoolDbContext>(provider => provider.GetService<SchoolDbContext>());
-            services.AddScoped<ISchoolDbSeeder,SchoolDbSeeder>();
+            services.AddScoped<ISchoolDbContext, SchoolDbContext>();
+            services.AddScoped<ISchoolDbSeeder, SchoolDbSeeder>();
+
 
             return services;
         }

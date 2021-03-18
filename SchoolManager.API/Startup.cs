@@ -12,6 +12,7 @@ using SchoolManager.Application;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Common.Interfaces;
 using SchoolManager.Infrastructure;
+using SchoolManager.Infrastructure.Persistance;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,8 +49,8 @@ namespace SchoolManager.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISchoolDbSeeder seeder)
         {
-            seeder.Seed();
 
+            seeder.Seed();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
