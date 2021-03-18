@@ -18,7 +18,7 @@ namespace SchoolManager.Infrastructure.Persistance
             _context = context;
         }
 
-        public void Seed()
+        public async void Seed()
         {
             if(_context.Database.CanConnect())
             {
@@ -31,6 +31,8 @@ namespace SchoolManager.Infrastructure.Persistance
                         new Class{Name = "1bT",Type = ClassType.Technikum}
                     });
                 }
+
+                await _context.SaveChangesAsync();
             }
         }
     }
