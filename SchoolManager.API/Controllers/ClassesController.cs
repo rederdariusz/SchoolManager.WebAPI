@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManager.Application.Classes.Commands.CreateClass;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Classes.Queries.GetClassById;
 using System;
@@ -31,6 +32,13 @@ namespace SchoolManager.API.Controllers
         public async Task<IActionResult> GetClassById([FromRoute] int classId)
         {
             return Ok(await _mediator.Send(new GetClassByIdQuery() { ClassId = classId }));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateClass([FromBody] CreateClassCommand command)
+        {
+            var classId = await _mediator.Send(command);
+            return Created($"api/classes/{classId}", null);
         }
 
     }

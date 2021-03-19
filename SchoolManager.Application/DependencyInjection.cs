@@ -1,8 +1,9 @@
-﻿using Mapster;
+﻿using FluentValidation;
+using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using SchoolManager.Application.Common.Interfaces;
+using SchoolManager.Application.Common.Behaviours;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -17,8 +18,10 @@ namespace SchoolManager.Application
             services.AddSingleton(GetConfiguredMappingConfig());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IMapper, ServiceMapper>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            
+
 
 
             return services;
