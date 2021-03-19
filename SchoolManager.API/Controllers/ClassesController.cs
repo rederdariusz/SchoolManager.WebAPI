@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManager.Application.Classes.Commands.CreateClass;
+using SchoolManager.Application.Classes.Commands.DeleteClass;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Classes.Queries.GetClassById;
 using System;
@@ -39,6 +40,12 @@ namespace SchoolManager.API.Controllers
         {
             var classId = await _mediator.Send(command);
             return Created($"api/classes/{classId}", null);
+        }
+        [HttpDelete("{classId}")]
+        public async Task<IActionResult> DeleteClass(int classId)
+        {
+            await _mediator.Send(new DeleteClassCommand { ClassId = classId });
+            return NoContent();
         }
 
     }
