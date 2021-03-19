@@ -13,13 +13,14 @@ namespace SchoolManager.Application.Dto
     {
        
         public string Name { get; set; }
-        public ClassType Type { get; set; }
+        public string Type { get; set; }
         public TeacherDto Teacher { get; set; }
         public List<StudentDto> Students { get; set; }
 
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Class, ClassDto>();
+            config.NewConfig<Class, ClassDto>()
+                .Map(dest => dest.Type, src => src.Type.ToString());
         }
     }
 }

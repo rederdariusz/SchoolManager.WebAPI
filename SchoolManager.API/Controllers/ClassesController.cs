@@ -27,10 +27,10 @@ namespace SchoolManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllClassesQuery()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetClassById(int id)
+        [HttpGet("{classId}")]
+        public async Task<IActionResult> GetClassById([FromRoute] int classId)
         {
-            return Ok(await _mediator.Send(new GetClassByIdQuery() { ClassId = id }));
+            return Ok(await _mediator.Send(new GetClassByIdQuery() { ClassId = classId }));
         }
 
     }
