@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManager.Application.Students.Commands.CreateStudent;
 using SchoolManager.Application.Students.Queries.GetAllStudents;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,16 @@ namespace SchoolManager.API.Controllers
         public async Task<IActionResult> GetAllStudents(int classId)
         {
             return Ok(await _mediator.Send(new GetAllStudentsQuery{ ClassId = classId }));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateStudent(int classId,[FromBody] CreateStudentCommand command)
+        {
+            var studentId = await _mediator.Send(command);
+
+            return Created($"api/classes/{classId}/students/{studentId}", null);
+
+
         }
     }
 }

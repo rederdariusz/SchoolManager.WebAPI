@@ -15,8 +15,4 @@
     <ProjectReference Include="..\SchoolManager.Domain\SchoolManager.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Classes\Commands\" />
-  </ItemGroup>
-
 </Project>
