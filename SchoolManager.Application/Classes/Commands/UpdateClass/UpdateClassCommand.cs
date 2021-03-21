@@ -30,7 +30,8 @@ namespace SchoolManager.Application.Classes.Commands.UpdateClass
 
         public async Task<Unit> Handle(UpdateClassCommand request, CancellationToken cancellationToken)
         {
-            var classEntity = _context.Classes.Where(x => x.Id == request.ClassId).FirstOrDefault();
+            var classEntity = await _context.Classes.FindAsync(request.ClassId);
+
             if (classEntity == null) throw new NotFoundException($"Class with id: {request.ClassId} was not found");
 
             classEntity.Name = request.Name;

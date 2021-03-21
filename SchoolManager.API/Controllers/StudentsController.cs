@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManager.Application.Students.Commands.CreateStudent;
+using SchoolManager.Application.Students.Commands.DeleteStudent;
+using SchoolManager.Application.Students.Commands.UpdateStudent;
 using SchoolManager.Application.Students.Queries.GetAllStudents;
 using SchoolManager.Application.Students.Queries.GetStudentById;
 using System;
@@ -36,9 +38,21 @@ namespace SchoolManager.API.Controllers
         public async Task<IActionResult> CreateStudent(int classId,[FromBody] CreateStudentCommand command)
         {
             var studentId = await _mediator.Send(command);
-
             return Created($"api/classes/{classId}/students/{studentId}", null);
-
         }
+        [HttpDelete("{studentId}")]
+        public async Task<IActionResult> CreateStudent(int classId, int studentId)
+        {
+            await _mediator.Send(new DeleteStudentCommand { ClassId = classId, StudentId = studentId});
+            return NoContent();
+        }
+
+        [HttpPut("{studentId}")]
+        public async Task<IActionResult> UpdateStudent(int classId, int studentId, [FromBody]UpdateStudentCommand command)
+        {
+            await _mediator.Send(new UpdateStudentCommand { ClassId = classId,StudentId = studentId, FirstName = command.FirstName,LastName = command.LastName, Pesel = command.Pesel,DateOfBirth  = command.DateOfBirth, PhoneNumber = command.PhoneNumber });
+            return Ok();
+        }
+
     }
 }
