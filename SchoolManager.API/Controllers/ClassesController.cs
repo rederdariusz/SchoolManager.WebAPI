@@ -5,7 +5,7 @@ using SchoolManager.Application.Classes.Commands.CreateClass;
 using SchoolManager.Application.Classes.Commands.DeleteClass;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Classes.Queries.GetClassById;
-using SchoolManager.Application.Classes.Queries.GetClassByName;
+using SchoolManager.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace SchoolManager.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClasses([FromQuery]string name)
+        public async Task<IActionResult> GetAllClasses([FromQuery]string type)
         {
             return Ok(await _mediator.Send(new GetAllClassesQuery()));
         }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolManager.Application.Common.Interfaces;
 using SchoolManager.Application.Dto;
 using SchoolManager.Domain.Entities;
+using SchoolManager.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,12 @@ namespace SchoolManager.Application.Classes.Queries.GetAllClasses
         }
         public async Task<IEnumerable<ClassDto>> Handle(GetAllClassesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Classes           
+            return await _context.Classes
                 .Include(c => c.Teacher)
                 .Include(c => c.Students)
                 .ProjectToType<ClassDto>(_mapper.Config)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
+
         }
     }
 }
