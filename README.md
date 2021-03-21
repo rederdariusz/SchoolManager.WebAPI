@@ -1,4 +1,4 @@
-# SchoolManager - Clean Architecture Web API (in progress...)
+# SchoolManager - Clean Architecture Web API
 ### Project goal
 The main goal of the project is to ***learn*** new things and technologies used in creating a professional Web API.
 ### Current Technology Stack
