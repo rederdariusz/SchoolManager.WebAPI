@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManager.Application.Classes.Commands.CreateClass;
 using SchoolManager.Application.Classes.Commands.DeleteClass;
+using SchoolManager.Application.Classes.Commands.UpdateClass;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Classes.Queries.GetClassById;
 using SchoolManager.Domain.Enums;
@@ -25,7 +26,7 @@ namespace SchoolManager.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClasses([FromQuery]string type)
+        public async Task<IActionResult> GetAllClasses()
         {
             return Ok(await _mediator.Send(new GetAllClassesQuery()));
         }
@@ -48,6 +49,14 @@ namespace SchoolManager.API.Controllers
             await _mediator.Send(new DeleteClassCommand { ClassId = classId });
             return NoContent();
         }
+
+        [HttpPut("{classId}")]
+        public async Task<IActionResult> UpdateClass(int classId, UpdateClassCommand command)
+        {
+            await _mediator.Send(new UpdateClassCommand() { ClassId = classId, Name = command.Name, Type = command.Type});
+            return Ok();
+        }
+
 
 
 
