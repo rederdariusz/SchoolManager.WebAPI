@@ -2,6 +2,7 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SchoolManager.Application.Common.Exceptions;
 using SchoolManager.Application.Common.Interfaces;
 using SchoolManager.Application.Dto;
 using SchoolManager.Domain.Entities;
@@ -31,12 +32,16 @@ namespace SchoolManager.Application.Classes.Queries.GetClassById
         }
         public async Task<ClassDto> Handle(GetClassByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Classes
+            var classDto = await _context.Classes
                 .Where(x => x.Id == request.ClassId)
                 .Include(c => c.Teacher)
                 .Include(c => c.Students)
                 .ProjectToType<ClassDto>(_mapper.Config)
                 .FirstOrDefaultAsync(cancellationToken);
+
+            if (classDto == null) throw new NotFoundException($"Class with id: {request.ClassId} was not found");
+
+            return classDto;
         }
     }
 }

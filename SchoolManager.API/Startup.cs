@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SchoolManager.API.Filters;
 using SchoolManager.Application;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Common.Interfaces;
@@ -36,11 +37,12 @@ namespace SchoolManager.API
 
             services.AddApplication();
             services.AddInfrastructure(Configuration);
+
+
+            services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
+                .AddFluentValidation()
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             
-            
-            services.AddControllers().AddFluentValidation().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SchoolManager.API", Version = "v1" });
