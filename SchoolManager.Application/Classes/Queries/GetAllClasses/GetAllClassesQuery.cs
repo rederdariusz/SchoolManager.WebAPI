@@ -16,7 +16,6 @@ namespace SchoolManager.Application.Classes.Queries.GetAllClasses
 {
     public class GetAllClassesQuery : IRequest<IEnumerable<ClassDto>>
     {
-
     }
 
     public class GetAllClassesQueryHandler : IRequestHandler<GetAllClassesQuery, IEnumerable<ClassDto>>
@@ -31,12 +30,11 @@ namespace SchoolManager.Application.Classes.Queries.GetAllClasses
         }
         public async Task<IEnumerable<ClassDto>> Handle(GetAllClassesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Classes
+            return await _context.Classes           
                 .Include(c => c.Teacher)
                 .Include(c => c.Students)
                 .ProjectToType<ClassDto>(_mapper.Config)
                 .ToListAsync();
-
         }
     }
 }

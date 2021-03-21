@@ -5,6 +5,7 @@ using SchoolManager.Application.Classes.Commands.CreateClass;
 using SchoolManager.Application.Classes.Commands.DeleteClass;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Classes.Queries.GetClassById;
+using SchoolManager.Application.Classes.Queries.GetClassByName;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace SchoolManager.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClasses()
+        public async Task<IActionResult> GetAllClasses([FromQuery]string name)
         {
             return Ok(await _mediator.Send(new GetAllClassesQuery()));
         }
@@ -47,6 +48,8 @@ namespace SchoolManager.API.Controllers
             await _mediator.Send(new DeleteClassCommand { ClassId = classId });
             return NoContent();
         }
+
+
 
     }
 }

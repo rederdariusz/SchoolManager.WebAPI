@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SchoolManager.Application.Common.Exceptions;
@@ -15,7 +16,8 @@ namespace SchoolManager.API.Filters
         {
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
-                {typeof(NotFoundException), HandleNotFoundException }
+                {typeof(NotFoundException), HandleNotFoundException },
+                {typeof(ValidationException), HandleValidationException }
             };
         }
 
@@ -53,6 +55,15 @@ namespace SchoolManager.API.Filters
             context.Result = new NotFoundObjectResult(context.Exception.Message)
             {
                 StatusCode = StatusCodes.Status404NotFound
+            };
+            context.ExceptionHandled = true;
+        }
+
+        private void HandleValidationException(ExceptionContext context)
+        {
+            context.Result = new BadRequestObjectResult(context.Exception.Message)
+            {
+                StatusCode = StatusCodes.Status400BadRequest
             };
             context.ExceptionHandled = true;
         }
