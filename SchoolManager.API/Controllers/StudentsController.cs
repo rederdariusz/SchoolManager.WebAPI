@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManager.Application.Students.Commands.CreateStudent;
 using SchoolManager.Application.Students.Queries.GetAllStudents;
+using SchoolManager.Application.Students.Queries.GetStudentById;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,14 +27,17 @@ namespace SchoolManager.API.Controllers
         {
             return Ok(await _mediator.Send(new GetAllStudentsQuery{ ClassId = classId }));
         }
-
+        [HttpGet("{studentId}")]
+        public async Task<IActionResult> GetStudentById(int classId, int studentId)
+        {
+            return Ok(await _mediator.Send(new GetStudentByIdQuery { ClassId = classId, StudentId = studentId }));
+        }
         [HttpPost]
         public async Task<IActionResult> CreateStudent(int classId,[FromBody] CreateStudentCommand command)
         {
             var studentId = await _mediator.Send(command);
 
             return Created($"api/classes/{classId}/students/{studentId}", null);
-
 
         }
     }

@@ -13,7 +13,7 @@ namespace SchoolManager.Infrastructure
         {
             services.AddDbContext<SchoolDbContext>(opt =>
             {
-                opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                opt.UseSqlServer(configuration.GetConnectionString("SchoolDbConnection"),
                     b => b.MigrationsAssembly(typeof(SchoolDbContext).Assembly.FullName));
             });
 

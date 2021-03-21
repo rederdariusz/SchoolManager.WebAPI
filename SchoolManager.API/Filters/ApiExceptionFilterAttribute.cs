@@ -52,19 +52,13 @@ namespace SchoolManager.API.Filters
 
         private void HandleNotFoundException(ExceptionContext context)
         {
-            context.Result = new NotFoundObjectResult(context.Exception.Message)
-            {
-                StatusCode = StatusCodes.Status404NotFound
-            };
+            context.Result = new NotFoundObjectResult(context.Exception.Message);
             context.ExceptionHandled = true;
         }
 
         private void HandleValidationException(ExceptionContext context)
         {
-            context.Result = new BadRequestObjectResult(context.Exception.Message)
-            {
-                StatusCode = StatusCodes.Status400BadRequest
-            };
+            context.Result = new BadRequestObjectResult(context.Exception.Message);
             context.ExceptionHandled = true;
         }
 
