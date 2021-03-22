@@ -17,7 +17,9 @@ using SchoolManager.Infrastructure;
 using SchoolManager.Infrastructure.Persistance;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SchoolManager.API
@@ -45,7 +47,11 @@ namespace SchoolManager.API
             
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SchoolManager.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SchoolManager.API", Version = "v1",Description = "Web API with Clean Architecture and MediatR" });
+                c.EnableAnnotations();
+                /*var xfile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xpath = Path.Combine(AppContext.BaseDirectory, xfile);
+                c.IncludeXmlComments(xpath);*/
             });
         }
 
