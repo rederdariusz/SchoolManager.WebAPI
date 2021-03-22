@@ -6,12 +6,6 @@ using SchoolManager.Application.Classes.Commands.DeleteClass;
 using SchoolManager.Application.Classes.Commands.UpdateClass;
 using SchoolManager.Application.Classes.Queries.GetAllClasses;
 using SchoolManager.Application.Classes.Queries.GetClassById;
-using SchoolManager.Domain.Enums;
-using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SchoolManager.API.Controllers
@@ -28,37 +22,62 @@ namespace SchoolManager.API.Controllers
         }
 
        
-        [SwaggerOperation(Summary = "Returns all classes"]
-        [SwaggerResponse(200,"Success")]
-        [SwaggerResponse(500,"Server Error")]
+        /// <summary>
+        /// Returns all classes.
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="500">Server Error</response>
         [HttpGet]
         public async Task<IActionResult> GetAllClasses()
         {
             return Ok(await _mediator.Send(new GetAllClassesQuery()));
         }
 
-        [SwaggerOperation(Summary = "Returns class with given id")]
-        [SwaggerResponse(200, "Success")]
-        [SwaggerResponse(404, "Not Found")]
-        [SwaggerResponse(500, "Server Error")]
+        /// <summary>
+        ///     Returns class with given id.
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="404">Class not found</response>
+        /// <response code="500">Server Error</response>
         [HttpGet("{classId}")]
         public async Task<IActionResult> GetClassById([FromRoute] int classId)
         {
             return Ok(await _mediator.Send(new GetClassByIdQuery() { ClassId = classId }));
         }
 
-        [SwaggerOperation(Summary = "Creates a class")]
-        [SwaggerResponse(201, "Success")]
-        [SwaggerResponse(400, "Bad Request")]
-        [SwaggerResponse(500, "Server Error")]
-        [SwaggerRequestBody(Description = "Name: 1aT", Required = true)]
 
+        /// <summary>
+        ///     Creates class.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/classes/
+        ///     {
+        ///         "Name": "1aT",
+        ///         "Type": 2
+        ///     }
+        ///     
+        /// Type:
+        /// 1 - Liceum
+        /// 2 - Technikum
+        /// </remarks>
+        /// <response code="201">Success created</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="500">Server Error</response>
         [HttpPost]
         public async Task<IActionResult> CreateClass([FromBody] CreateClassCommand command)
         {
             var classId = await _mediator.Send(command);
             return Created($"api/classes/{classId}", null);
         }
+
+        /// <summary>
+        /// Deletes class with given id.
+        /// </summary>
+        /// <response code="204">Success deleted</response>
+        /// <response code="404">Class not found</response>
+        /// <response code="500">Server error</response>
         [HttpDelete("{classId}")]
         public async Task<IActionResult> DeleteClass(int classId)
         {
@@ -66,6 +85,28 @@ namespace SchoolManager.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        ///     Updates class with given id.
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="command"></param>
+        /// <remarks>
+        ///   Sample request:
+        ///
+        ///     POST /api/classes/{classId}
+        ///     {
+        ///         "Name": "1aT",
+        ///         "Type": 2
+        ///     }
+        ///     
+        /// Type:
+        /// 1 - Liceum
+        /// 2 - Technikum
+        /// </remarks>
+        /// <response code="200">Success updated</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Class not found</response>
+        /// <response code="500">Server Error</response>
         [HttpPut("{classId}")]
         public async Task<IActionResult> UpdateClass(int classId, UpdateClassCommand command)
         {
