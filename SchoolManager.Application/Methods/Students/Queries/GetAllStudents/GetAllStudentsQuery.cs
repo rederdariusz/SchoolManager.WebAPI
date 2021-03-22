@@ -2,6 +2,7 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SchoolManager.Application.Common.Exceptions;
 using SchoolManager.Application.Common.Interfaces;
 using SchoolManager.Application.Dto;
 using System;
@@ -31,10 +32,14 @@ namespace SchoolManager.Application.Students.Queries.GetAllStudents
 
         public async Task<IEnumerable<StudentDto>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Students
-                .Where(x => x.ClassId == request.ClassId)
-                .ProjectToType<StudentDto>(_mapper.Config)
-                .ToListAsync();
+            var classEntity = await _context.Classes
+                .Include(c => c.Students)
+                .Where(x => x.Id == request.ClassId)
+                .FirstOrDefaultAsync();
+
+            if (classEntity == null) throw new NotFoundException($"Class with id: {request.ClassId} was not found");`
+
+            return _mapper.Map<List<StudentDto>>(classEntity.Students);
         }
     }
 }
