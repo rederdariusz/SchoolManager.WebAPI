@@ -53,7 +53,6 @@ namespace SchoolManager.Application.Students.Commands.UpdateStudent
             studentEntity.Pesel = request.Pesel;
             studentEntity.DateOfBirth = request.DateOfBirth;
             studentEntity.PhoneNumber = request.PhoneNumber;
-            studentEntity.ClassId = request.ClassId;
 
             await _context.SaveChangesAsync();
             return Unit.Value;

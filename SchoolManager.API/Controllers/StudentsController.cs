@@ -42,7 +42,7 @@ namespace SchoolManager.API.Controllers
             return Created($"api/classes/{classId}/students/{studentId}", null);
         }
         [HttpDelete("{studentId}")]
-        public async Task<IActionResult> CreateStudent(int classId, int studentId)
+        public async Task<IActionResult> DeleteStudent(int classId, int studentId)
         {
             await _mediator.Send(new DeleteStudentCommand { ClassId = classId, StudentId = studentId});
             return NoContent();
@@ -51,7 +51,9 @@ namespace SchoolManager.API.Controllers
         [HttpPut("{studentId}")]
         public async Task<IActionResult> UpdateStudent(int classId, int studentId, [FromBody]UpdateStudentCommand command)
         {
-            await _mediator.Send(new UpdateStudentCommand { ClassId = classId,StudentId = studentId, FirstName = command.FirstName,LastName = command.LastName, Pesel = command.Pesel,DateOfBirth  = command.DateOfBirth, PhoneNumber = command.PhoneNumber });
+            command.ClassId = classId;
+            command.StudentId = studentId;
+            await _mediator.Send(command);
             return Ok();
         }
 

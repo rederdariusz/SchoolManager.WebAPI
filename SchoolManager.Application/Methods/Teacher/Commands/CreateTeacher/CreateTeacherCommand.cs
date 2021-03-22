@@ -31,7 +31,7 @@ namespace SchoolManager.Application.Methods.Teacher.Commands.CreateTeacher
         public async Task<Unit> Handle(CreateTeacherCommand request, CancellationToken cancellationToken)
         {
            
-            var classEntity = await _context.Classes.FindAsync(request.ClassId);
+            var classEntity = await _context.Classes.FindAsync(request.ClassId,cancellationToken);
             if (classEntity == null) throw new NotFoundException($"Class with id: {request.ClassId} was not found");
 
             var teacherEntity = new SchoolManager.Domain.Entities.Teacher
@@ -43,7 +43,7 @@ namespace SchoolManager.Application.Methods.Teacher.Commands.CreateTeacher
                 PhoneNumber = request.PhoneNumber,
                 ClassId = request.ClassId
             };
-            await _context.Teachers.AddAsync(teacherEntity);
+            await _context.Teachers.AddAsync(teacherEntity,cancellationToken);
             await _context.SaveChangesAsync();
 
             return Unit.Value;
