@@ -37,6 +37,7 @@ namespace SchoolManager.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateStudent(int classId,[FromBody] CreateStudentCommand command)
         {
+            command.ClassId = classId;
             var studentId = await _mediator.Send(command);
             return Created($"api/classes/{classId}/students/{studentId}", null);
         }

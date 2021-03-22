@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SchoolManager.Application.Students.Commands.CreateStudent
+namespace SchoolManager.Application.Methods.Teacher.Commands.CreateTeacher
 {
-    public class CreateStudentCommand : IRequest<int>
+    public class CreateTeacherCommand : IRequest<Unit>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,23 +19,22 @@ namespace SchoolManager.Application.Students.Commands.CreateStudent
         public DateTime DateOfBirth { get; set; }
         public string PhoneNumber { get; set; }
         public int ClassId { get; set; }
-
     }
 
-    public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, int>
+    public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand, Unit>
     {
         private readonly ISchoolDbContext _context;
-
-        public CreateStudentCommandHandler(ISchoolDbContext context)
+        public CreateTeacherCommandHandler(ISchoolDbContext context)
         {
             _context = context;
         }
-        public async Task<int> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateTeacherCommand request, CancellationToken cancellationToken)
         {
+           
             var classEntity = await _context.Classes.FindAsync(request.ClassId);
             if (classEntity == null) throw new NotFoundException($"Class with id: {request.ClassId} was not found");
 
-            var studentEntity = new Student
+            var teacherEntity = new SchoolManager.Domain.Entities.Teacher
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
@@ -44,11 +43,10 @@ namespace SchoolManager.Application.Students.Commands.CreateStudent
                 PhoneNumber = request.PhoneNumber,
                 ClassId = request.ClassId
             };
-            await _context.Students.AddAsync(studentEntity);
+            await _context.Teachers.AddAsync(teacherEntity);
             await _context.SaveChangesAsync();
 
-            return studentEntity.Id;
-
+            return Unit.Value;
         }
     }
 }

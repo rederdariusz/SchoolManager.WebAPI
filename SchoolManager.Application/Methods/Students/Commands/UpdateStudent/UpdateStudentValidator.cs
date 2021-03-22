@@ -1,16 +1,21 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SchoolManager.Application.Common.Interfaces;
+using SchoolManager.Application.Students.Commands.UpdateStudent;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SchoolManager.Application.Students.Commands.CreateStudent
+namespace SchoolManager.Application.Methods.Students.Commands.UpdateStudent
 {
-    public class CreateStudentValidator : AbstractValidator<CreateStudentCommand>
+    public class UpdateStudentValidator : AbstractValidator<UpdateStudentCommand>
     {
         private readonly ISchoolDbContext _context;
 
-        public CreateStudentValidator(ISchoolDbContext context)
+        public UpdateStudentValidator(ISchoolDbContext context)
         {
             _context = context;
 
@@ -31,10 +36,11 @@ namespace SchoolManager.Application.Students.Commands.CreateStudent
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage("Phone number can not be an empty.")
                 .Length(9).WithMessage("Incorrect number. Phone number need to have 9 digits.");
-         
+            
 
         }
         private async Task<bool> BeUniquePesel(string pesel, CancellationToken cancellationToken)
                 => await _context.Students.AllAsync(x => x.Pesel != pesel, cancellationToken);
     }
+
 }

@@ -1,5 +1,4 @@
-﻿using Mapster;
-using MapsterMapper;
+﻿using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SchoolManager.Application.Common.Exceptions;
@@ -12,34 +11,34 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SchoolManager.Application.Students.Queries.GetAllStudents
+namespace SchoolManager.Application.Methods.Teacher.Queries.GetTeacher
 {
-    public class GetAllStudentsQuery : IRequest<IEnumerable<StudentDto>>
+    public class GetTeacherQuery : IRequest<TeacherDto>
     {
         public int ClassId { get; set; }
     }
 
-    public class GetAllStudentsQueryHandler : IRequestHandler<GetAllStudentsQuery, IEnumerable<StudentDto>>
+    public class GetTeacherQueryHandler : IRequestHandler<GetTeacherQuery, TeacherDto>
     {
         private readonly ISchoolDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetAllStudentsQueryHandler(ISchoolDbContext context, IMapper mapper)
+        public GetTeacherQueryHandler(ISchoolDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-
-        public async Task<IEnumerable<StudentDto>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
+        public async Task<TeacherDto> Handle(GetTeacherQuery request, CancellationToken cancellationToken)
         {
             var classEntity = await _context.Classes
-                .Include(c => c.Students)
+                .Include(c => c.Teacher)
                 .Where(x => x.Id == request.ClassId)
                 .FirstOrDefaultAsync();
 
             if (classEntity == null) throw new NotFoundException($"Class with id: {request.ClassId} was not found");
+            if (classEntity.Teacher == null) throw new NotFoundException($"Class with id: {request.ClassId} does not have a teacher");
 
-            return _mapper.Map<List<StudentDto>>(classEntity.Students);
+            return _mapper.Map<TeacherDto>(classEntity.Teacher);
         }
     }
 }
